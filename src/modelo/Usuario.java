@@ -26,10 +26,10 @@ public class Usuario implements Serializable {
 	}
 	
 	public Usuario(Usuario u) {
-		this.email = u.email;
-		this.apellido = u.apellido;
-		this.id = u.id;
-		this.nombre = u.nombre;
+		this.email = u.getEmail();
+		this.apellido = u.getApellido();
+		this.id = u.getId();
+		this.nombre = u.getNombre();
 	}
 	
 	public long getId() {

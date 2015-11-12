@@ -67,7 +67,7 @@ public class Cliente extends JFrame implements ActionListener{
 			+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 	final Pattern pattern = Pattern.compile(EXPR_REG_EMAIL);
 	
-	public static String urlString = "http://localhost:8080/P2/ListaCorreosServlet";
+	public static String urlString = "http://localhost:8080/Practica2_LuisAlbertoSeguraDelgado/ListaCorreosServlet";
 
 	private TablaUsuarios modeloTablaUsuarios;
 	
@@ -157,7 +157,7 @@ public class Cliente extends JFrame implements ActionListener{
 		        
 		        int resultadoDialogo = JOptionPane.showConfirmDialog(
 		        		Cliente.this, 
-		        		"¿Quieres eliminar el usuario <"+usuario.getEmail()+">?",
+		        		"ï¿½Quieres eliminar el usuario <"+usuario.getEmail()+">?",
 		        		"Eliminar usuario",
 		        		JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 		        if (resultadoDialogo == JOptionPane.YES_OPTION) {
@@ -309,15 +309,15 @@ public class Cliente extends JFrame implements ActionListener{
 			boolean error = false;
 			if (nombre.equals("")) {
 				error = true;
-				fraseError += "\n · Debe introducir un nombre.";
+				fraseError += "\n ï¿½ Debe introducir un nombre.";
 			}
 			if (apellido.equals("")) {
 				error = true;
-				fraseError += "\n · Debe introducir un apellido.";
+				fraseError += "\n ï¿½ Debe introducir un apellido.";
 			}
 			if (!matcher.matches()) {
 				error = true;
-				fraseError += "\n · Correo electr\u00F3nico no v\u00E1lido.";
+				fraseError += "\n ï¿½ Correo electr\u00F3nico no v\u00E1lido.";
 			}		
 			if (!error) {
 				try {

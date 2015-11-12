@@ -2,8 +2,10 @@ package modelo;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 
 public class BDUsuario {
 
@@ -13,17 +15,41 @@ public class BDUsuario {
 	
 	
 	public void insertar(Usuario u)
-	{}
+	{
+		EntityManager em = factoria.createEntityManager();
+		em.getTransaction().begin();
+		em.persist(u);
+		em.flush();
+		em.getTransaction().commit();
+		em.close();
+	}
 	
 	public void eliminar(Usuario u)
-	{}
+	{
+		EntityManager em = factoria.createEntityManager();
+		em.getTransaction().begin();
+		em.remove(u);
+		em.flush();
+		em.getTransaction().commit();
+		em.close();
+	}
 	
 	public void actualizar(Usuario u)
 	{}
 	
 	public Usuario seleccionarUsuario(String email)
 	{
+		EntityManager em = factoria.createEntityManager();
+		
 		Usuario u = null;
+		
+		Query q = em.createQuery("select u from Usuario u where u.email =:arg1");
+		q.setParameter("arg1", email);
+		
+		if(q.getResultList().size() > 0)
+		{
+			u = (Usuario) q.getResultList().get(0);
+		}
 		
 		return u;
 	}
@@ -33,11 +59,12 @@ public class BDUsuario {
 		return seleccionarUsuario(email) != null;
 	}
 	
-	public List<Usuario> listarUsuarios(String email)
+	public List<Usuario> listarUsuarios()
 	{
-		List<Usuario> usuarios = null;
+		EntityManager em = factoria.createEntityManager();
+		Query q = em.createQuery("select u from Usuario u");
 		
-		return usuarios;
+		return q.getResultList();
 	}
 	
 }
