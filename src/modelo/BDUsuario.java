@@ -9,10 +9,18 @@ import javax.persistence.Query;
 
 public class BDUsuario {
 
-	private static final String PERSISTENCE_UNIT_NAME = "usuario";
+	private static final String PERSISTENCE_UNIT_NAME = "Usuario";
 	
-	private static EntityManagerFactory factoria = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+	private static EntityManagerFactory factoria;
 	
+	public BDUsuario() {
+		// TODO Auto-generated constructor stub
+		try{
+			factoria = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+		}catch(Exception e){
+			System.err.println(e.getMessage());
+		}
+	}
 	
 	public void insertar(Usuario u)
 	{

@@ -286,7 +286,7 @@ public class Cliente extends JFrame implements ActionListener{
 			Map<String,String> parametros = new HashMap<String, String>();
 			parametros.put("action", "listarUsuarios");
 			ObjectInputStream respuesta = new ObjectInputStream(realizarPeticionPost(urlString, parametros));
-			List<Usuario> listaUsuarios = (List<Usuario>) respuesta.readObject();	
+			List<Usuario> listaUsuarios = (List<Usuario>) respuesta.readObject();
 			return listaUsuarios;
 		} catch (Exception e) {
 			e.printStackTrace();
