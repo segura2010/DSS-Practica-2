@@ -11,21 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.sql.DataSource;
-
-import org.eclipse.persistence.config.PersistenceUnitProperties;
-
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory; import javax.persistence.Persistence;
 import javax.persistence.Query;
 
 import modelo.BDUsuario;
@@ -34,11 +22,12 @@ import modelo.Usuario;
 public class ListaCorreosServlet extends HttpServlet {
 	
 	// crea el objeto que controla la BD
-	BDUsuario usuarioControlador;
+	BDUsuario usuarioControlador = new BDUsuario();
+	EntityManagerFactory factoria = Persistence.createEntityManagerFactory("miusuario");
 	
 	public ListaCorreosServlet() {
 		// TODO Auto-generated constructor stub
-		usuarioControlador = new BDUsuario();
+		//usuarioControlador = new BDUsuario();
 	}
 
 	@Override
@@ -47,7 +36,11 @@ public class ListaCorreosServlet extends HttpServlet {
 		//super.doGet(req, resp);
 		// Set response content type
 		
-		List<Usuario> usuarios = usuarioControlador.listarUsuarios();
+		EntityManager em = factoria.createEntityManager();
+		Query q = em.createQuery("select u from Usuario u");
+		
+		
+		List<Usuario> usuarios = q.getResultList(); //usuarioControlador.listarUsuarios();
 		
 		  resp.setContentType("text/html");
 		
@@ -59,12 +52,14 @@ public class ListaCorreosServlet extends HttpServlet {
 		  {
 			  out.println(usuarios.get(i).getEmail());
 		  }
+		  
 	}
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		//super.doPost(req, resp);
+		super.doPost(req, resp);
+		
 		String action = req.getParameter("action");
 		
 		switch (action) {
@@ -86,6 +81,7 @@ public class ListaCorreosServlet extends HttpServlet {
 		default:
 			break;
 		}
+		
 	}
 	
 	
