@@ -127,10 +127,10 @@ public class Cliente extends JFrame implements ActionListener{
 							parametros.put("apellido", usuario.getApellido());
 							parametros.put("email", usuario.getEmail());
 							ObjectInputStream respuesta = new ObjectInputStream(realizarPeticionPost(urlString, parametros));
-							int codigo = respuesta.readInt();
+							
 							String mensaje = (String) respuesta.readObject();
-							switch (codigo) {
-								case 0:
+							switch (mensaje) {
+								case "0":
 						            setValueAt(value, editingRow, editingColumn);
 									break;
 								default:
@@ -166,10 +166,10 @@ public class Cliente extends JFrame implements ActionListener{
 						parametros.put("action", "eliminarUsuario");
 						parametros.put("email", usuario.getEmail());
 						ObjectInputStream respuesta = new ObjectInputStream(realizarPeticionPost(urlString, parametros));
-						int codigo = respuesta.readInt();
+						
 						String mensaje = (String) respuesta.readObject();
-						switch (codigo) {
-							case 0:
+						switch (mensaje) {
+							case "0":
 						        modeloTablaUsuarios.removeRow(modelRow);
 								break;
 							default:
@@ -327,10 +327,10 @@ public class Cliente extends JFrame implements ActionListener{
 					parametros.put("apellido", apellido);
 					parametros.put("email", email);		
 					ObjectInputStream respuesta = new ObjectInputStream(realizarPeticionPost(urlString, parametros));
-					int codigo = respuesta.readInt();
+					
 					String mensaje = (String) respuesta.readObject();					
-					switch (codigo) {
-						case 0:
+					switch (mensaje) {
+						case "0":
 							Usuario usuario = new Usuario();
 							usuario.setNombre(tfNombre.getText());
 							usuario.setApellido(tfApellido.getText());

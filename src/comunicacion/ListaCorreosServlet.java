@@ -22,7 +22,7 @@ import modelo.Usuario;
 public class ListaCorreosServlet extends HttpServlet {
 	
 	// crea el objeto que controla la BD
-	BDUsuario usuarioControlador = new BDUsuario();
+	private BDUsuario usuarioControlador = new BDUsuario();
 	
 	public ListaCorreosServlet() {
 		// TODO Auto-generated constructor stub
@@ -46,7 +46,7 @@ public class ListaCorreosServlet extends HttpServlet {
 		  
 		  for (int i = 0; i < usuarios.size(); i++)
 		  {
-			  out.println(usuarios.get(i).getEmail());
+			  out.println(usuarios.get(i).getNombre() + " " + usuarios.get(i).getApellido() + " " + usuarios.get(i).getEmail() + "<br>");
 		  }
 		  
 	}
@@ -54,24 +54,56 @@ public class ListaCorreosServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		super.doPost(req, resp);
+		//super.doPost(req, resp);
 		
 		String action = req.getParameter("action");
+		System.out.println("Accion: " + action);
+		
+		ObjectOutputStream out = new ObjectOutputStream(resp.getOutputStream());
+		
+		boolean ok = true;
 		
 		switch (action) {
 		case "actualizarUsuario":
 			actualizaUsuario(req.getParameter("nombre"), req.getParameter("apellido"), req.getParameter("email"));
-			resp.getWriter().println("OK");
+			
+			out.writeObject("0");
+			out.flush();
+			out.close();
 			break;
 			
 		case "aniadirUsuario":
-			aniadirUsuario(req.getParameter("nombre"), req.getParameter("apellido"), req.getParameter("email"));
-			resp.getWriter().println("OK");
+			ok = aniadirUsuario(req.getParameter("nombre"), req.getParameter("apellido"), req.getParameter("email"));
+			
+			if(ok)
+			{
+				out.writeObject("0");
+			}
+			else
+			{
+				out.writeObject("Ya existe un usuario con ese email!");
+			}
+			
+			out.flush();
+			out.close();
 			break;
 			
 		case "listarUsuarios":
 			// llamo a listar para que me escriba los usuarios
-			listarUsuarios(resp);
+			
+			List<Usuario> usuarios = usuarioControlador.listarUsuarios();
+			out.writeObject(usuarios);
+			out.flush();
+			out.close();
+			break;
+			
+		case "eliminarUsuario":
+			Usuario u = usuarioControlador.seleccionarUsuario(req.getParameter("email"));
+			usuarioControlador.eliminar(u);
+			
+			out.writeObject("0");
+			out.flush();
+			out.close();
 			break;
 
 		default:
@@ -90,13 +122,13 @@ public class ListaCorreosServlet extends HttpServlet {
 		usuarioControlador.actualizar(u);
 	}
 	
-	private void aniadirUsuario(String nombre, String apellido, String email)
+	private boolean aniadirUsuario(String nombre, String apellido, String email)
 	{
 		Usuario u = new Usuario();
 		u.setApellido(apellido);
 		u.setNombre(nombre);
 		u.setEmail(email);
-		usuarioControlador.insertar(u);
+		return usuarioControlador.insertar(u);
 	}
 	
 	private void listarUsuarios(HttpServletResponse resp) throws IOException
