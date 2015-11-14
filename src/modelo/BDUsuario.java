@@ -9,7 +9,7 @@ import javax.persistence.Query;
 
 public class BDUsuario {
 
-	private static final String PERSISTENCE_UNIT_NAME = "miusuario";
+	private static final String PERSISTENCE_UNIT_NAME = "practica2";
 	
 	private static EntityManagerFactory factoria = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
 	

@@ -23,7 +23,6 @@ public class ListaCorreosServlet extends HttpServlet {
 	
 	// crea el objeto que controla la BD
 	BDUsuario usuarioControlador = new BDUsuario();
-	EntityManagerFactory factoria = Persistence.createEntityManagerFactory("miusuario");
 	
 	public ListaCorreosServlet() {
 		// TODO Auto-generated constructor stub
@@ -36,11 +35,8 @@ public class ListaCorreosServlet extends HttpServlet {
 		//super.doGet(req, resp);
 		// Set response content type
 		
-		EntityManager em = factoria.createEntityManager();
-		Query q = em.createQuery("select u from Usuario u");
 		
-		
-		List<Usuario> usuarios = q.getResultList(); //usuarioControlador.listarUsuarios();
+		List<Usuario> usuarios = usuarioControlador.listarUsuarios();
 		
 		  resp.setContentType("text/html");
 		
