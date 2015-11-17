@@ -86,9 +86,13 @@ public class BDUsuario {
 	{
 		try{
 			EntityManager em = factoria.createEntityManager();
+			em.getTransaction().begin();
 			Query q = em.createQuery("select u from Usuario u");
+			em.getTransaction().commit();
 			
 			List<Usuario> usuarios = (List<Usuario>) q.getResultList();
+			
+			em.close();
 			
 			return usuarios;
 		}catch(Exception e){

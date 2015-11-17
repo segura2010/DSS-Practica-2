@@ -57,7 +57,7 @@ public class ListaCorreosServlet extends HttpServlet {
 		//super.doPost(req, resp);
 		
 		String action = req.getParameter("action");
-		System.out.println("Accion: " + action);
+		//System.out.println("Accion: " + action);
 		
 		ObjectOutputStream out = new ObjectOutputStream(resp.getOutputStream());
 		
