@@ -65,11 +65,20 @@ public class ListaCorreosServlet extends HttpServlet {
 		
 		switch (action) {
 		case "actualizarUsuario":
-			actualizaUsuario(req.getParameter("nombre"), req.getParameter("apellido"), req.getParameter("email"));
-			
-			out.writeObject("0");
-			out.flush();
-			out.close();
+			if(usuarioControlador.existeEmail(req.getParameter("email")))
+			{
+				actualizaUsuario(req.getParameter("nombre"), req.getParameter("apellido"), req.getParameter("email"));
+				
+				out.writeObject("0");
+				out.flush();
+				out.close();
+			}
+			else
+			{
+				out.writeObject("El usuario no existe!");
+				out.flush();
+				out.close();
+			}
 			break;
 			
 		case "aniadirUsuario":
@@ -98,12 +107,21 @@ public class ListaCorreosServlet extends HttpServlet {
 			break;
 			
 		case "eliminarUsuario":
-			Usuario u = usuarioControlador.seleccionarUsuario(req.getParameter("email"));
-			usuarioControlador.eliminar(u);
-			
-			out.writeObject("0");
-			out.flush();
-			out.close();
+			if(usuarioControlador.existeEmail(req.getParameter("email")))
+			{
+				Usuario u = usuarioControlador.seleccionarUsuario(req.getParameter("email"));
+				usuarioControlador.eliminar(u);
+				
+				out.writeObject("0");
+				out.flush();
+				out.close();
+			}
+			else
+			{
+				out.writeObject("El usuario no existe!");
+				out.flush();
+				out.close();
+			}
 			break;
 
 		default:
